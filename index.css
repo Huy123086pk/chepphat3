@@ -1,0 +1,582 @@
+@import "tailwindcss";
+
+/* ============================================================
+   THEME TOKENS — phong cách trình soạn thảo Python
+   Dark  : VS Code (#1E1E1E / #C586C0 / #CE9178 / #DCDCAA ...)
+   Light : Python IDLE (#FFFFFF / #0000FF / #008000 / #795E26 ...)
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1e1e1e;
+  --bg-2: #252526;
+  --panel: #2d2d30;
+  --panel-2: #333338;
+  --border: #3e3e42;
+  --text: #d4d4d4;
+  --text-dim: #9d9d9d;
+
+  --keyword: #c586c0;
+  --string: #ce9178;
+  --func: #dcdcaa;
+  --number: #b5cea8;
+  --comment: #6a9955;
+  --operator: #d4d4d4;
+
+  --accent: #dcdcaa;
+  --on-accent: #1e1e1e;
+  --danger: #f48771;
+
+  --fur: #ededed;
+  --fur-line: #3b3b3b;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --bg-2: #f3f3f3;
+  --panel: #eaeaea;
+  --panel-2: #dfdfdf;
+  --border: #d4d4d4;
+  --text: #242424;
+  --text-dim: #6b6b6b;
+
+  --keyword: #0000ff;
+  --string: #008000;
+  --func: #795e26;
+  --number: #098658;
+  --comment: #808080;
+  --operator: #242424;
+
+  --accent: #795e26;
+  --on-accent: #ffffff;
+  --danger: #a31515;
+
+  --fur: #ffffff;
+  --fur-line: #242424;
+}
+
+@theme {
+  --font-display: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-body: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-ui: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: var(--bg);
+  --color-panel: var(--panel);
+  --color-bone: var(--text);
+  --color-candle: var(--accent);
+  --color-danger: var(--danger);
+
+  --color-keyword: var(--keyword);
+  --color-string: var(--string);
+  --color-func: var(--func);
+  --color-number: var(--number);
+  --color-comment: var(--comment);
+
+  --animate-float: float 10s ease-in-out infinite;
+  --animate-float-late: float 13s ease-in-out 1.6s infinite;
+  --animate-spin-slow: spin-slow 18s linear infinite;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Chuyển theme mượt ~250ms cho toàn bộ thành phần */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    fill 250ms ease,
+    stroke 250ms ease,
+    box-shadow 250ms ease;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+}
+
+textarea,
+input {
+  caret-color: var(--accent);
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 1.5px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 3px;
+}
+
+textarea:focus-visible,
+input:focus-visible {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-clear-button {
+  display: none !important;
+}
+
+/* ---------- Thành phần dùng chung ---------- */
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text) 16%, transparent), transparent);
+}
+
+.fade-top {
+  background: linear-gradient(to bottom, var(--bg), color-mix(in srgb, var(--bg) 82%, transparent), transparent);
+}
+
+.glass {
+  border: 1.5px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 38%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.22);
+}
+
+.input-pill {
+  width: 100%;
+  height: 54px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 45%, transparent);
+  padding: 0 22px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  transition:
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    background-color 250ms ease;
+}
+.input-pill::placeholder {
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  letter-spacing: normal;
+}
+.input-pill:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.input-pill:disabled {
+  opacity: 0.4;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+  transition:
+    filter 200ms ease,
+    box-shadow 250ms ease,
+    transform 120ms ease,
+    background-color 250ms ease;
+}
+.btn-accent:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 42px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.btn-accent:active {
+  transform: scale(0.99);
+}
+.btn-accent:disabled {
+  opacity: 0.3;
+  filter: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  border: 1.5px solid var(--border);
+  color: var(--text-dim);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    background-color 250ms ease;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.win-dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.win-dots span {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  display: block;
+}
+.win-dots span:nth-child(1) {
+  background: #ff5f57;
+}
+.win-dots span:nth-child(2) {
+  background: #febc2e;
+}
+.win-dots span:nth-child(3) {
+  background: #28c840;
+}
+
+/* Tô màu cú pháp Python */
+.tok-kw {
+  color: var(--keyword);
+}
+.tok-str {
+  color: var(--string);
+}
+.tok-fn {
+  color: var(--func);
+}
+.tok-num {
+  color: var(--number);
+}
+.tok-cm {
+  color: var(--comment);
+}
+.tok-op {
+  color: var(--operator);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 55%, transparent),
+    var(--accent)
+  );
+}
+
+/* Ambient glow theo theme */
+.amb-a {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.amb-b {
+  background: color-mix(in srgb, var(--keyword) 10%, transparent);
+}
+[data-theme="light"] .amb-a {
+  background: color-mix(in srgb, var(--number) 16%, transparent);
+}
+[data-theme="light"] .amb-b {
+  background: color-mix(in srgb, var(--keyword) 6%, transparent);
+}
+
+/* ---------- Grain ---------- */
+.grain {
+  position: fixed;
+  inset: -100%;
+  z-index: 75;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 700ms steps(4) infinite;
+}
+[data-theme="light"] .grain {
+  opacity: 0.03;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-1.5%, 1%);
+  }
+  50% {
+    transform: translate(1%, -1.5%);
+  }
+  75% {
+    transform: translate(-1%, -1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-22px);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Lưới mắt dõi theo con trỏ ---------- */
+.eye-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.eye-cell,
+.watcher-eye {
+  --pupil-x: 0px;
+  --pupil-y: 0px;
+  --scale: 0.8;
+}
+
+.eye-cell {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.watcher-eye {
+  position: fixed;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.eye-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: scale(var(--scale));
+  transition: transform 140ms ease-out;
+  will-change: transform;
+}
+
+.eye-pupil-group {
+  transform: translate(var(--pupil-x), var(--pupil-y));
+  transition: transform 110ms ease-out;
+  will-change: transform;
+}
+
+.eye-lids {
+  fill: none;
+  stroke-width: 16;
+}
+
+.eye-grid .eye-blink,
+.watcher-eye .eye-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eye-blink 5s ease-in-out infinite;
+}
+
+.eye-grid--still .eye-blink {
+  animation: none;
+}
+
+@keyframes eye-blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  94.5% {
+    transform: scaleY(0.06);
+  }
+  98% {
+    transform: scaleY(1);
+  }
+}
+
+.eye-grid--dim .eye-whites,
+.watcher-eye .eye-whites {
+  fill: color-mix(in srgb, var(--text) 5%, transparent);
+}
+.eye-grid--dim .eye-pupil,
+.watcher-eye .eye-pupil {
+  fill: color-mix(in srgb, var(--text) 26%, transparent);
+}
+.eye-grid--dim .eye-glint,
+.watcher-eye .eye-glint {
+  fill: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+.eye-grid--dim .eye-lids,
+.watcher-eye .eye-lids {
+  stroke: color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+.eye-grid--alert .eye-whites {
+  fill: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.eye-grid--alert .eye-pupil {
+  fill: color-mix(in srgb, var(--accent) 58%, transparent);
+}
+.eye-grid--alert .eye-glint {
+  fill: color-mix(in srgb, var(--text) 85%, transparent);
+}
+.eye-grid--alert .eye-lids {
+  stroke: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- Bongo Cat ---------- */
+.bongo {
+  position: fixed;
+  right: 18px;
+  bottom: 76px;
+  z-index: 35;
+  width: 150px;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 24px rgb(0 0 0 / 0.25));
+  transition: opacity 300ms ease;
+}
+
+.bongo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bongo-fur {
+  fill: var(--fur);
+  stroke: var(--fur-line);
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.bongo-ear {
+  fill: color-mix(in srgb, var(--string) 45%, var(--fur));
+  stroke: var(--fur-line);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.bongo-line {
+  stroke: var(--fur-line);
+  stroke-width: 4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.bongo-blush {
+  fill: color-mix(in srgb, var(--string) 30%, transparent);
+}
+
+.bongo-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bongo-blink 4.8s ease-in-out infinite;
+}
+.bongo-eyes circle {
+  fill: var(--fur-line);
+}
+
+.bongo-head {
+  transform-box: fill-box;
+  transform-origin: center 80%;
+  transition: transform 150ms ease-out;
+}
+.bongo-typing .bongo-head {
+  transform: translateY(2px) rotate(var(--tilt, 0deg));
+}
+
+.bongo-paw {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 110ms ease-in;
+  will-change: transform;
+}
+.bongo-paw.is-up {
+  transform: translateY(-13px);
+  transition-timing-function: ease-out;
+}
+
+.bongo-desk {
+  fill: var(--panel);
+  stroke: var(--border);
+  stroke-width: 4;
+}
+
+.bongo-keys {
+  fill: var(--panel-2);
+  stroke: var(--border);
+  stroke-width: 3.5;
+}
+.bongo-keycaps rect {
+  fill: color-mix(in srgb, var(--text) 22%, transparent);
+}
+.bongo-keycaps rect.is-hit {
+  fill: var(--accent);
+}
+
+@keyframes bongo-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+  98% {
+    transform: scaleY(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .bongo {
+    width: 110px;
+    right: 10px;
+    bottom: 64px;
+  }
+}

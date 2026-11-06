@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1E1E1E" />
+    <meta
+      name="description"
+      content="SEALED.py — Phòng viết phong tỏa: chỉ bàn phím và chuột, chặn Ctrl+C / Ctrl+V, thoát ra phải có mật khẩu."
+    />
+    <title>SEALED.py — Phòng viết phong tỏa</title>
+    <script>
+      // Chống flash: áp theme trước khi paint — localStorage > chế độ hệ điều hành
+      (function () {
+        try {
+          var t = localStorage.getItem("sealed.theme");
+          if (t !== "light" && t !== "dark") {
+            t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400..600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
